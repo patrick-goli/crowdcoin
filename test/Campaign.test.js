@@ -35,4 +35,9 @@ describe("Campaigns", () => {
     assert.ok(factory.options.address);
     assert.ok(campaign.options.address);
   });
+
+  it('cannot create campaign with insufficient money', async ()=>{
+    await assert.rejects(campaign.methods.contribute().send({ from: accounts[1], value: 10 }));
+    
+})
 });

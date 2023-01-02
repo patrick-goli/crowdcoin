@@ -1,13 +1,12 @@
+require('dotenv').config();
 const HDWalletProvider = require('@truffle/hdwallet-provider');
 const Web3 = require('web3');
 
 const compiledFactory = require("./build/CampaignFactory.json");
 const compiledCampaign = require("./build/Campaign.json");
-
-const provider=new HDWalletProvider(
-  'grass object cute excuse baby suggest dad cinnamon never govern strategy will',
-  'https://goerli.infura.io/v3/5119b6b474ec4d25b407568e3205a255'
-)
+const SECRET_RECOVERY_PHRASE = process.env.SECRET_RECOVERY_PHRASE;
+const ETH_TESTNET_API = process.env.ETH_TESTNET_API;
+const provider=new HDWalletProvider(SECRET_RECOVERY_PHRASE, ETH_TESTNET_API);
 const web3 = new Web3(provider);
 
 const deploy = async () => {

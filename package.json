@@ -1,5 +1,5 @@
 {
-  "name": "kickstart",
+  "name": "crowdfundme",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -13,7 +13,6 @@
   "license": "ISC",
   "dependencies": {
     "@truffle/hdwallet-provider": "^1.5.1",
-    "dotenv": "^16.0.3",
     "fs-extra": "^10.0.0",
     "ganache-cli": "^6.12.2",
     "mocha": "^9.1.2",
@@ -22,5 +21,8 @@
     "react-dom": "^18.2.0",
     "solc": "^0.4.26",
     "web3": "^1.6.0"
+  },
+  "devDependencies": {
+    "dotenv-webpack": "^8.0.1"
   }
 }

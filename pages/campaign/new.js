@@ -7,18 +7,25 @@ import web3 from "../../ethereum/web3";
 class NewCampaign extends Component {
     constructor(props) {
         super(props);
-        this.state = {minContribution: 0};
+        this.state = {minContribution: 0, message: ''};
         this.onSubmit = this.onSubmit.bind(this);
 
       }
 
     async onSubmit(event) {
         event.preventDefault();
-        const accounts = await web3.eth.getAccounts();
-        //create new campaign
-        await factory.methods.createCampaign(this.state.minContribution).send({
-            from: accounts[0]
-        });
+        try {
+            const accounts = await web3.eth.getAccounts();
+            //create new campaign
+            await factory.methods.createCampaign(this.state.minContribution).send({
+                from: accounts[0]
+            });
+            this.setState({message: 'Campaign creatiion submited'})
+        } catch (error) {
+            console.log(error);
+            this.setState({message: 'Campaign creatiion failed: ' + error?.message})
+        }
+
     }
 
     render(){
@@ -37,6 +44,8 @@ class NewCampaign extends Component {
                 />
             </Form.Field>
         <Button type='submit' primary>Create</Button>
+        <br></br>
+        <label><strong>{this.state.message}</strong></label>
         </Form>
         </Container>
     }

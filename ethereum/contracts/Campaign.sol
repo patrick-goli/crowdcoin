@@ -32,12 +32,17 @@ contract Campaign {
     uint public minContribution;
     mapping(address => bool) public contributors; //track who has donated to this campaign
     uint contributorsCount;
+    uint requestsCount;
 
     constructor(uint _minContribution, address creator) public {
         manager=creator;
         minContribution=_minContribution;
     } 
 
+    modifier restricted() {
+        require(msg.sender == manager, "Only the manager can call this function");
+        _;
+    }
 
     function contribute() public payable {
         require(msg.value >= minContribution, "minimum contribution is not met");
@@ -55,6 +60,7 @@ contract Campaign {
           approvalCount: 0
           });
       requests.push(newReq);
+      requestsCount++;
   }
 
     // approve a specific request
@@ -68,11 +74,6 @@ contract Campaign {
         targetRequest.requestApprovers[msg.sender]=true;
     }
 
-    modifier restricted() {
-        require(msg.sender == manager, "Only the manager can call this function");
-        _;
-    }
-
     // transfer funds if request is approved by majority of contributors
     function finalizeRequest(uint requestIndex) public restricted {
         require(requestIndex < requests.length, "request with provided index not found");
@@ -82,4 +83,15 @@ contract Campaign {
         targetRequest.recipient.transfer(targetRequest.value);
         targetRequest.complete=true;
     }
+
+    function getSummary() public view returns (uint, uint, uint, uint, address) {
+        return (
+            minContribution,
+            address(this).balance,
+            requestsCount,
+            contributorsCount,
+            manager
+        );
+    }
+
 }

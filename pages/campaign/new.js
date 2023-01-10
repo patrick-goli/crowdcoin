@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Container, Form, Button, Input } from 'semantic-ui-react';
+import Router from "next/router";
+import { Container, Form, Button, Input, Message } from 'semantic-ui-react';
 
 import factory from "../../ethereum/factory";
 import web3 from "../../ethereum/web3";
@@ -7,31 +8,46 @@ import web3 from "../../ethereum/web3";
 class NewCampaign extends Component {
     constructor(props) {
         super(props);
-        this.state = {minContribution: 0, message: ''};
-        this.onSubmit = this.onSubmit.bind(this);
-
+        this.state = {
+            minContribution: 0,
+            errorMessage: '',
+            successMessage: '',
+            loading: false
+        };
+        this.createCompaign = this.createCompaign.bind(this);
+        this.onChange = this.onChange.bind(this);
       }
 
-    async onSubmit(event) {
+    async createCompaign(event) {
         event.preventDefault();
+
+        this.setState({errorMessage: '', successMessage: '', loading: true})
         try {
             const accounts = await web3.eth.getAccounts();
             //create new campaign
             await factory.methods.createCampaign(this.state.minContribution).send({
                 from: accounts[0]
             });
-            this.setState({message: 'Campaign creatiion submited'})
+            this.setState({successMessage: 'Campaign created.'})
+            var x = setTimeout(function() { Router.push("/"); }, 3000);      
+            clearInterval(x);
+
         } catch (error) {
             console.log(error);
-            this.setState({message: 'Campaign creatiion failed: ' + error?.message})
+            this.setState({errorMessage: error?.message})
         }
+        this.setState({loading: false})
 
+    }
+
+    onChange(event) {
+        this.setState({errorMessage: '', successMessage: '', minContribution: event.target.value})
     }
 
     render(){
         return <Container>
         <h3>Create a new crowdfunding campaign</h3>
-        <Form onSubmit={this.onSubmit}>
+        <Form onSubmit={this.createCompaign} error={!!this.state.errorMessage} success={!!this.state.successMessage}>
             <Form.Field>
                 <label>Minimum Contribution</label>
                 <Input
@@ -40,12 +56,21 @@ class NewCampaign extends Component {
                 labelPosition='right'
                 placeholder='100'
                 value={this.state.minContribution}
-                onChange={event => this.setState({minContribution: event.target.value})}
+                onChange={this.onChange}
                 />
             </Form.Field>
-        <Button type='submit' primary>Create</Button>
+        <Button type='submit' primary loading={this.state.loading} >Create</Button>
         <br></br>
-        <label><strong>{this.state.message}</strong></label>
+        <Message
+        error
+        header='Campaign creation failed'
+        content={this.state.errorMessage}
+        />
+        <Message
+        success
+        header='Success !'
+        content={this.state.successMessage}
+        />
         </Form>
         </Container>
     }

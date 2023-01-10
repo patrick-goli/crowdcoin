@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card } from "semantic-ui-react";
 import Campaign from "../../../ethereum/campaign"
+import ContributeForm from '../../../components/ContributeForm';
 
 const ShowCampaign = ({minContribution, balance, requestsCount, contributorsCount, manager}) => {
     const items = [{
@@ -34,7 +35,9 @@ const ShowCampaign = ({minContribution, balance, requestsCount, contributorsCoun
     return (
         <div>
         <Card.Group items={items}/>
+        <ContributeForm></ContributeForm>
         </div>
+
     );
 };
 

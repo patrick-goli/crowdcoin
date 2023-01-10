@@ -1,30 +1,32 @@
 import React from "react";
-import { Menu } from 'semantic-ui-react'
+import { useRouter } from "next/router";
+import { Menu, Icon } from 'semantic-ui-react';
+import Link from 'next/link';
 import 'semantic-ui-css/semantic.min.css'
 
 const Header = () => {
-   function handleItemClick(){
+    const router = useRouter();
 
-    }
-    return <Menu style={{marginTop: '20px'}}>
-        <Menu.Item
-        name='home'
-        content='Home'
-        onClick={handleItemClick}
-        />
-
-        <Menu.Item
-        name='reviews'
-        content='Reviews'
-        onClick={handleItemClick}
-        />
-
-        <Menu.Item
-        name='upcomingEvents'
-        content='Upcoming Events'
-        onClick={handleItemClick}
-        />
-    </Menu>
+    return (
+        <Menu style={{ marginTop: '10px' }}>
+            <Link href='/'>
+                <a className="item">CrowdFundme</a>
+            </Link>
+            
+            <Menu.Menu position="right">
+                <Menu.Item>
+                    <Link href="/">
+                            <a className="item">Campaigns</a>
+                    </Link>
+                </Menu.Item>
+                <Menu.Item>
+                    <Link href="/campaigns/new">
+                        <a className="item"><Icon name="add circle" /></a>
+                    </Link>
+                </Menu.Item>
+            </Menu.Menu>
+        </Menu>
+    )
 
 };
 export default Header;

@@ -29,7 +29,7 @@ class NewCampaign extends Component {
                 from: accounts[0]
             });
             this.setState({successMessage: 'Campaign created.'})
-            var x = setTimeout(function() { Router.push("/"); }, 3000);      
+            var x = setTimeout(function() { Router.push("/"); }, 3000);
             clearInterval(x);
 
         } catch (error) {

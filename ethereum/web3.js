@@ -1,4 +1,3 @@
-require('dotenv').config()
 import Web3 from "web3";
 
 const ETH_TESTNET_API = process.env.ETH_TESTNET_API;

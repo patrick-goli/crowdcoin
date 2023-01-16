@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Router from "next/router";
 import { Form, Button, Input, Message } from 'semantic-ui-react';
 
 import Campaign from "../ethereum/campaign"
@@ -32,7 +33,8 @@ class ContributeForm extends Component {
                 value: web3.utils.toWei(this.state.amountContribution, 'ether')
             });
             this.setState({successMessage: 'Contribution sent.'})
-            // setTimeout(()=> { Router.push("/"); }, 3000);
+            // refresh the page and fetch updated data
+            Router.replace(Router.asPath);
 
         } catch (error) {
             console.log(error);

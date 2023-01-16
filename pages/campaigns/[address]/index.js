@@ -14,22 +14,22 @@ const ShowCampaign = (props) => {
       {
         header: minContribution + " Wei",
         meta: "minumum contribution",
-        description: "min to contribute"
+        description: "Amount to contribute"
       },
       {
         header: balance + " Wei",
-        meta: "total current balance",
-        description: "a"
+        meta: "Total current balance",
+        description: "Money available so far"
       },
       {
         header: requestsCount,
         meta: "number of outgoing requests",
-        description: "b"
+        description: "Spending requests mabe by manager"
       },
       {
         header: contributorsCount,
         meta: "number of contributors",
-        description: "c"
+        description: "People who have donated to this campaign"
       }
     ];
     

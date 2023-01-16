@@ -30,7 +30,7 @@ class CampaignIndex extends Component {
   render() {
     return (
       <Container>
-        <h3>Available CrowdFunding Campaigns</h3>
+        <h3>Ongoing crowd-funding Campaigns</h3>
         <Link href="/campaigns/new">
           <a className="item">
           <Button content="Create Campaign" icon="add circle" primary floated="right" />

@@ -25,8 +25,6 @@ class ContributeForm extends Component {
         try {
             const accounts = await web3.eth.getAccounts();
             const campaign = Campaign(this.props.address);
-            console.log("address: ", this.props.address);
-            console.log("contribution: ", this.state.amountContribution);
             // send in Wei
             await campaign.methods.contribute().send({
                 from: accounts[0],
@@ -53,7 +51,7 @@ class ContributeForm extends Component {
                 <label>Amount to contribute</label>
                 <Input type="number" value={this.state.amountContribution} onChange={this.onChange} label="ether" labelPosition="right"/>
             </Form.Field>
-            <Button primary>Contribute</Button>
+            <Button primary loading={this.state.loading}>Contribute</Button>
             <br></br>
             <Message
             error

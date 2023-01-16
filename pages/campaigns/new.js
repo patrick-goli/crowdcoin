@@ -45,7 +45,7 @@ class NewCampaign extends Component {
 
     render(){
         return <Container>
-        <h3>Create a new crowdfunding campaign</h3>
+        <h3>Create a new CrowdFundMe campaign</h3>
         <Form onSubmit={this.createCompaign} error={!!this.state.errorMessage} success={!!this.state.successMessage}>
             <Form.Field>
                 <label>Minimum Contribution</label>

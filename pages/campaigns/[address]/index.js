@@ -1,5 +1,6 @@
 import React from 'react';
-import { Card, Grid } from "semantic-ui-react";
+import Link from 'next/link';
+import { Card, Grid, Button } from "semantic-ui-react";
 import Campaign from "../../../ethereum/campaign"
 import ContributeForm from '../../../components/ContributeForm';
 
@@ -32,17 +33,28 @@ const ShowCampaign = (props) => {
         description: "People who have donated to this campaign"
       }
     ];
-    
+    const requests=`/campaigns/${props.address}/requests`;
     return (
     <div>
         <h3>Crowd-funding campaign</h3>
     <Grid>
-        <Grid.Column width={10}>
-            <Card.Group items={items}/>
-        </Grid.Column>
-        <Grid.Column width={6}>
-            <ContributeForm address={address} />
-        </Grid.Column>
+        <Grid.Row>
+            <Grid.Column width={10}>
+                <Card.Group items={items}/>
+            </Grid.Column>
+            <Grid.Column width={6}>
+                <ContributeForm address={address} />
+            </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+            <Grid.Column>
+                <Link href={requests}>
+                    <a className="item">
+                        <Button primary>View requests</Button>
+                    </a>
+                </Link>
+            </Grid.Column>
+        </Grid.Row>
     </Grid>
     </div>
     );

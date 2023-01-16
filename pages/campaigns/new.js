@@ -16,7 +16,7 @@ class NewCampaign extends Component {
         };
         this.createCompaign = this.createCompaign.bind(this);
         this.onChange = this.onChange.bind(this);
-      }
+    }
 
     async createCompaign(event) {
         event.preventDefault();

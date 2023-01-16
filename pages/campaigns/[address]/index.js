@@ -1,9 +1,10 @@
 import React from 'react';
-import { Card } from "semantic-ui-react";
+import { Card, Grid } from "semantic-ui-react";
 import Campaign from "../../../ethereum/campaign"
 import ContributeForm from '../../../components/ContributeForm';
 
-const ShowCampaign = ({minContribution, balance, requestsCount, contributorsCount, manager}) => {
+const ShowCampaign = (props) => {
+    const {address, minContribution, balance, requestsCount, contributorsCount, manager} = props;
     const items = [{
         header: manager,
         meta: "Address of Manager",
@@ -33,24 +34,31 @@ const ShowCampaign = ({minContribution, balance, requestsCount, contributorsCoun
     ];
     
     return (
-        <div>
-        <Card.Group items={items}/>
-        <ContributeForm></ContributeForm>
-        </div>
-
+    <div>
+        <h3>Crowd-funding campaign</h3>
+    <Grid>
+        <Grid.Column width={10}>
+            <Card.Group items={items}/>
+        </Grid.Column>
+        <Grid.Column width={6}>
+            <ContributeForm address={address} />
+        </Grid.Column>
+    </Grid>
+    </div>
     );
 };
 
-ShowCampaign.getInitialProps = async ({query})=>{
+ShowCampaign.getInitialProps = async (props)=>{
 
-    const campaign = Campaign(query.address);
+    const campaign = Campaign(props?.query.address);
     const summary = await campaign.methods.getSummary().call();
     return {
-        "minContribution": summary[0],
-        "balance": summary[1],
-        "requestsCount": summary[2],
-        "contributorsCount": summary[3],
-        "manager": summary[4]
+        address: props?.query.address,
+        minContribution: summary[0],
+        balance: summary[1],
+        requestsCount: summary[2],
+        contributorsCount: summary[3],
+        manager: summary[4]
     }
 }
 

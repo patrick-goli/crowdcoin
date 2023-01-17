@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Card, Grid, Button } from "semantic-ui-react";
 import Campaign from "../../../ethereum/campaign"
 import ContributeForm from '../../../components/ContributeForm';
+import web3 from '../../../ethereum/web3';
 
 const ShowCampaign = (props) => {
     const {address, minContribution, balance, requestsCount, contributorsCount, manager} = props;
@@ -13,12 +14,12 @@ const ShowCampaign = (props) => {
         style: { overflowWrap: "break-word" }
       },
       {
-        header: minContribution + " Wei",
-        meta: "minumum contribution",
+        header: web3.utils.fromWei(minContribution, 'ether') + " ether",
+        meta: `Minumum contribution (${minContribution} Wei)`,
         description: "Amount to contribute"
       },
       {
-        header: balance + " Wei",
+        header: web3.utils.fromWei(balance, 'ether') + " ether",
         meta: "Total current balance",
         description: "Money available so far"
       },

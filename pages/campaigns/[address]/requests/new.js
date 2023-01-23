@@ -14,7 +14,10 @@ class RequestNew extends Component {
         this.state ={
             value: 0,
             description: '',
-            recipient: ''
+            recipient: '',
+            errorMessage: '',
+            successMessage: '',
+            loading: false
         }
     }
 
@@ -24,24 +27,64 @@ class RequestNew extends Component {
         return {address}
     }
 
+    formSubmit = async (event) =>{
+        event.preventDefault();
+        const theCampaign = campaign(this.props.address);
+        const {description, value, recipient} = this.state;
+        this.setState({errorMessage: '', successMessage: '', loading: true});
+        try {
+            const accounts = await web3.eth.getAccounts();
+            await theCampaign.methods
+            .createRequest(description, web3.utils.toWei(value, 'ether'), recipient)
+            .send({ from: accounts[0] });
+            this.setState({successMessage: 'Request successfully created !'})
+        } catch (error) {
+            console.log(error);
+            this.setState({errorMessage: error?.message});
+        }
+        this.setState({loading: false})
+    }
+
+    onValueChange = (event) =>{
+        this.setState({errorMessage: '', successMessage: '', value: event.target.value})
+    }
+
+    onRecipientChange = (event) =>{
+        this.setState({errorMessage: '', successMessage: '', recipient: event.target.value})
+    }
+
+    onDescriptionChange = (event) =>{
+        this.setState({errorMessage: '', successMessage: '', description: event.target.value})
+    }
+
     render(){
         return (
             <Container>
                 <h3>Create a new spending request</h3>
-            <Form>
+            <Form onSubmit={this.formSubmit} error={!!this.state.errorMessage} success={!!this.state.successMessage}>
                 <Form.Field>
                     <label>Description</label>
-                    <Input value={this.state.description} onChange={event =>{this.setState({description: event.target.value})}}/>
+                    <Input required value={this.state.description} onChange={this.onDescriptionChange}/>
                 </Form.Field>
                 <Form.Field>
                     <label>Value (Ether)</label>
-                    <Input type="number" value={this.state.value} onChange={event =>{this.setState({value: event.target.value})}}/>
+                    <Input required type="number" value={this.state.value} onChange={this.onValueChange}/>
                 </Form.Field>
                 <Form.Field>
                     <label>Recipient (ETH address)</label>
-                    <Input value={this.state.recipient} onChange={event =>{this.setState({recipient: event.target.value})}}/>
+                    <Input required value={this.state.recipient} onChange={this.onRecipientChange}/>
                 </Form.Field>
-                <Button primary>Create</Button>
+                <Button primary loading={this.state.loading}>Create</Button>
+                <Message
+                error
+                header='Request creation failed'
+                content={this.state.errorMessage}
+                />
+                <Message
+                success
+                header='Spending request created !'
+                content={this.state.successMessage}
+                />
             </Form>
             </Container>
         )

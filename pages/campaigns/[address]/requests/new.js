@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import Link from 'next/link';
-import Router from "next/router";
 import { Form, Button, Message, Input, Container } from 'semantic-ui-react';
 
 import campaign from "../../../../ethereum/campaign";

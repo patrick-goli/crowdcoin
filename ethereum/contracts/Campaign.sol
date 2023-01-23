@@ -31,8 +31,8 @@ contract Campaign {
     address public manager;
     uint public minContribution;
     mapping(address => bool) public contributors; //track who has donated to this campaign
-    uint contributorsCount;
-    uint requestsCount;
+    uint public contributorsCount;
+    uint public requestsCount;
 
     constructor(uint _minContribution, address creator) public {
         manager=creator;
